@@ -1,0 +1,3 @@
+CREATE USER TABLE
+
+create table users (id int(255), is_admin tinyint(1), username varchar(40), password varchar(255), email varchar(255), timezone varchar(35), loggedIp varchar(255), is_locked tinyint(1), failed_logins int(5), signup_timestamp int(10), last_login int(10), full_name varchar(64), securityquest1 varchar(255), securityquest2 varchar(255));

@@ -1,12 +1,12 @@
 <?php
 Class dbObj{
-	public var $dbName;
-	public var $dbHost;
-	public var $dbUser;
-	public var $dbPassword;
-	public var $dbConnect;
-	public var $dbResultSet;
-
+	var $dbName='exchange';
+	var $dbHost='localhost';
+	var $dbUser='root';
+	var $dbPassword='Maddy.7800!';
+	var $dbConnect;
+	var $dbResultSet;
+$this->dbConnect();
 	public function dbObj($newName,$newHost,$newUser,$newPassword){
 		$this->dbName=$newName;
 		$this->newHost=$newHost;
@@ -15,11 +15,12 @@ Class dbObj{
 		$this->dbConnection();
 	}
 	function dbConnection(){
-		$this->dbConnect=mysql_connect($this->dbHost,$this->dbUser,$this->dbPassword);
-		mysql_select_db($this->dbName,$this->dbConnect);
+		$this->dbConnect = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
+		echo $this->dbConnect;
 	}
+//$this->dbConnection();
 	function dbCloseConnection(){	
-		mysql_close($this->dbConnect);
+		$this->dbConnect = null;
 	}
 	function dbRowCount(){
 		if($this->dbResultSet != NULL)

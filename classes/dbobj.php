@@ -1,31 +1,33 @@
 <?php
 Class dbObj{
-	var $dbName='exchange';
-	var $dbHost='localhost';
-	var $dbUser='root';
-	var $dbPassword='Maddy.7800!';
+	var $dbName;
+	var $dbHostlocalhost;
+	var $dbUser;
+	var $dbPassword;
 	var $dbConnect;
 	var $dbResultSet;
-$this->dbConnect();
 	public function dbObj($newName,$newHost,$newUser,$newPassword){
 		$this->dbName=$newName;
-		$this->newHost=$newHost;
-		$this->newUser=$newUser;
-		$this->newPassword;
+		$this->dbHost=$newHost;
+		$this->dbUser=$newUser;
+		$this->dbPassword=$newPassword;
 		$this->dbConnection();
 	}
 	function dbConnection(){
 		$this->dbConnect = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
-		echo $this->dbConnect;
+		//echo $this->dbConnect;
 	}
 //$this->dbConnection();
 	function dbCloseConnection(){	
 		$this->dbConnect = null;
 	}
 	function dbRowCount(){
-		if($this->dbResultSet != NULL)
-			return mysql_num_rows($this->dbResultSet);
-		return 0;
+		$stmt = $this->dbConnect->query('SELECT * FROM user');
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $stmt->rowCount();
+		//if($this->dbResultSet != NULL)
+		//	return mysql_num_rows($this->dbResultSet);
+		//return 0;
 	}
 	function dbColCount(){
 		$this->dbColCount=mysql_num_fields($this->dbResultSet);

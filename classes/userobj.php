@@ -35,12 +35,14 @@ Class userObj{
 			FROM 
 				user
 			WHERE
-				id = $uid
+				id = :id
 			LIMIT 1
 			";
 		#getData database.php
 		$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		$stmt = $db->query($strQuery);
+		$stmt = $db->prepare($strQuery);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //print_r($resultSet);
 		if (count($resultSet))

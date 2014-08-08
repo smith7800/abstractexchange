@@ -15,9 +15,7 @@ Class dbObj{
 	}
 	function dbConnection(){
 		$this->dbConnect = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
-		//echo $this->dbConnect;
 	}
-//$this->dbConnection();
 	function dbCloseConnection(){	
 		$this->dbConnect = null;
 	}
@@ -25,9 +23,6 @@ Class dbObj{
 		$stmt = $this->dbConnect->query('SELECT * FROM user');
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $stmt->rowCount();
-		//if($this->dbResultSet != NULL)
-		//	return mysql_num_rows($this->dbResultSet);
-		//return 0;
 	}
 	function dbColCount(){
 		$this->dbColCount=mysql_num_fields($this->dbResultSet);

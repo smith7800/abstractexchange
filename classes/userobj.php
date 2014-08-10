@@ -88,16 +88,19 @@ Class userObj{
 			FROM 
 				user
 			WHERE 
-				email = '$email' 
+				email = :email 
 			ORDER BY 
 				id
 			LIMIT 1
 			";
 		#getData database.php
-$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		$stmt = $db->query($strQuery);
-                $resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+		$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
+		$stmt = $db->prepare($strQuery);
+		$stmt->bindValue(':email', $email, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//print_r($resultSet);
 		//$dbConnect = &$dbObject;
 		//$resultSet = $dbConnect->dbSelect( $strQuery );
 		print_r($resultSet);

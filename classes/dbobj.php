@@ -6,7 +6,7 @@ Class dbObj{
 	var $dbPassword;
 	var $dbConnect;
 	var $dbResultSet;
-	public function dbObj($newName,$newHost,$newUser,$newPassword){
+	public function dbObj($newName='exchange',$newHost='localhost',$newUser='root',$newPassword='Maddy.7800!!!!'){
 		$this->dbName=$newName;
 		$this->dbHost=$newHost;
 		$this->dbUser=$newUser;

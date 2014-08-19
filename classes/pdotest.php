@@ -4,10 +4,10 @@ ini_set('display_startup_errors',1);
 error_reporting(-1);
 include_once('dbobj.php');
 include_once('userobj.php');
-$user=new dbObj('exchange','localhost','root','Maddy.7800!!!!');
-//print_r($user);
+$user=new userObj($dbObj,1);
+print_r($user);
 //echo $user->username;
 //$exit=userObj::customerEmailExists( 'jsmith@hotmail.com');
 //echo "exists: ".$exit;
-echo "row count: ".$user->dbRowCount();
+//echo "row count: ".$user->dbRowCount();
 ?>

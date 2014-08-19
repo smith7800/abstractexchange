@@ -1,5 +1,6 @@
 <?php
 Class userObj{
+	var $dbConnect;
 	var $userId;
 	var $isAdmin;
 	var $username;
@@ -14,8 +15,9 @@ Class userObj{
 	var $fullName;
 	var $securityQuestion1;
 	var $securityQuestion2;
+	
 
-	public function userObj($uid){
+	public function userObj(&$dbObj,$uid){
 		$this->userItemArray = array();
 		$strQuery = "
 			SELECT 
@@ -41,7 +43,7 @@ Class userObj{
 		#getData database.php
 		$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
 		$stmt = $db->prepare($strQuery);
-		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->bindValue(':id', $uid, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //print_r($resultSet);
@@ -80,8 +82,9 @@ Class userObj{
                         $this->securityquest2 = '';
 		}//echo $this->username;		
 	}
-	public static function customerEmailExists( $email )
+	public static function userEmailExists( $dbObj,$email )
 	{
+		$dbConnect = $dbObject;
 		$strQuery = "
 			SELECT 
 				id
@@ -95,8 +98,9 @@ Class userObj{
 			";
 		#getData database.php
 
-		$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		$stmt = $db->prepare($strQuery);
+		//$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
+		
+		$stmt = $dbConnect->prepare($strQuery);
 		$stmt->bindValue(':email', $email, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -96,24 +96,28 @@ Class userObj{
 				id
 			LIMIT 1
 			";
-		#getData database.php
+	#getData database.php
 
-		//$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		
-		$stmt = $dbConnect->prepare($strQuery);
-		$stmt->bindValue(':email', $email, PDO::PARAM_INT);
-		$stmt->execute();
-		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	//$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
+	
+	$stmt = $dbConnect->prepare($strQuery);
+	$stmt->bindValue(':email', $email, PDO::PARAM_INT);
+	$stmt->execute();
+	$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //print_r($resultSet);
-		//$dbConnect = &$dbObject;
-		//$resultSet = $dbConnect->dbSelect( $strQuery );
-		print_r($resultSet);
-		$tempInt = $resultSet[0]['id'];
+	//$dbConnect = &$dbObject;
+	//$resultSet = $dbConnect->dbSelect( $strQuery );
+	print_r($resultSet);
+	$tempInt = $resultSet[0]['id'];
 echo "tempint: ".$resultSet;
-		if ( $tempInt )
-			return 1;
-		else
-		return 0;
-	}	
+	if ( $tempInt )
+		return 1;
+	else
+	return 0;
+}
+
+public static insertUser(&$dbObject,$userFirstName,$userLastName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1){
+		
+	}
 }
 ?>

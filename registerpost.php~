@@ -1,0 +1,10 @@
+<?php
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+require_once('systemincludes.php');
+$tempInsert=UserObject::insertUser( &$dbObject,$userFirstName,$cuLastName,$cuEmail,$cuUsername,$cuPassword,$cuUnverifiedFlag=1)
+
+
+
+?>

@@ -115,7 +115,7 @@ echo "tempint: ".$resultSet;
 		else
 		return 0;
 	}
-	public static function insertCustomer( &$dbObject,$userFirstName,$userLastName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1)
+	public static function insertCustomer( &$dbObject,$cuFirstName,$cuLastName,$cuEmail,$cuUsername,$cuPassword,$cuUnverifiedFlag=1)
 	{
 		$dbConnect = &$dbObject;		
 		$strQuery = "

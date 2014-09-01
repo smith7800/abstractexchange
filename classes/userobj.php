@@ -110,57 +110,13 @@ Class userObj{
 	print_r($resultSet);
 	$tempInt = $resultSet[0]['id'];
 echo "tempint: ".$resultSet;
-<<<<<<< HEAD
+
 		if ( $tempInt )
 			return 1;
 		else
 		return 0;
 	}
-	public static function insertCustomer( &$dbObject,$userFirstName,$userLastName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1)
-	{
-		$dbConnect = &$dbObject;		
-		$strQuery = "
-			INSERT INTO 
-				tbluser
-			(
-				userFirstName,
-				userLastName,
-				userEmail,
-				userUsername,
-				userPassword,
-				userUnverifiedFlag,
-				userDateTime
-			)
-		VALUES 
-			(
-				:userFirstName,
-				:userLastName,
-				:userEmail,
-				:userUsername,
-				:userPassword,
-				:userUnverifiedFlag,
-				NOW()
-			) 
-			";//echo $strQuery;exit;
-		//$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		$stmt = $dbConnect->prepare($strQuery);
-		$stmt->bindValue(':userFirstName', $userFirstName, PDO::PARAM_INT);
-		$stmt->bindValue(':userLastName', $userLastName, PDO::PARAM_INT);
-		$stmt->bindValue(':userEmail', $userEmail, PDO::PARAM_INT);
-		$stmt->bindValue(':userUsername', $userUsername, PDO::PARAM_INT);
-		$stmt->bindValue(':userPassword', $userPassword, PDO::PARAM_INT);
-		$stmt->bindValue(':userUnverifiedFlag', $userUnverifiedFlag, PDO::PARAM_INT);
-		$stmt->bindValue(':userDateTime', $userDateTime, PDO::PARAM_INT);
-		$stmt->execute();
-		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		return $resultSet;
-	}	
-=======
-	if ( $tempInt )
-		return 1;
-	else
-	return 0;
-}
+
 
 public static function insertUser(&$dbObj,$userFirstName,$userLastName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag)
 	{
@@ -201,6 +157,6 @@ public static function insertUser(&$dbObj,$userFirstName,$userLastName,$userEmai
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $resultSet;
 	}
->>>>>>> 61499e92e6d57aa992efbbce1fa086f25eee7d84
+
 }
 ?>

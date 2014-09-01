@@ -4,7 +4,7 @@ ini_set('display_startup_errors',1);
 error_reporting(-1);
 
 require_once('systemincludes.php');
-$tempInsert=userObj::insertUser( &$dbObject,$userFullName="yo",$userEmail="yo@man.om",$userUsername="yoman",$userPassword="yoandshit",$userUnverifiedFlag=1);
+$tempInsert=userObj::insertUser( &$dbObject,$userFullName="yoplll",$userEmail="yo@man.om",$userUsername="yoman",$userPassword="yoandshit",$userUnverifiedFlag=1);
 
 
 ?>

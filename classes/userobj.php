@@ -15,9 +15,11 @@ Class userObj{
 	var $fullName;
 	var $securityQuestion1;
 	var $securityQuestion2;
+	var $unverifiedFlag;
 	
 
-	public function userObj(&$dbObj,$uid){
+	public function __construct(&$dbObj,$userId){
+		$this->dbConnect = &$dbObject;
 		$this->userItemArray = array();
 		$strQuery = "
 			SELECT 
@@ -33,9 +35,10 @@ Class userObj{
 				last_login,
 				full_name,
 				securityquest1,
-				securityquest2
+				securityquest2,
+				unverifiedFlag
 			FROM 
-				user
+				tbluser
 			WHERE
 				id = :id
 			LIMIT 1
@@ -63,6 +66,7 @@ Class userObj{
 			$this->fullName = $resultSet[0]['fullName'];
 			$this->securityquest1 = $resultSet[0]['securityQuestion1'];
 			$this->securityquest2 = $resultSet[0]['securityQuestion2'];
+			$this->unverifiedFlag = $resultSet[0]['unverifiedFlag'];
 		}
 		else
 		{
@@ -80,6 +84,7 @@ Class userObj{
                         $this->fullName = '';
                         $this->securityquest1 = '';
                         $this->securityquest2 = '';
+			$this->unverifiedFlag = '';
 		}//echo $this->username;		
 	}
 	public static function userEmailExists( $dbObj,$email )
@@ -89,7 +94,7 @@ Class userObj{
 			SELECT 
 				id
 			FROM 
-				user
+				tbluser
 			WHERE 
 				email = :email 
 			ORDER BY 
@@ -120,18 +125,18 @@ echo "tempint: ".$resultSet;
 
 public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag)
 	{
-		//$dbConnect = &$dbObj;		
+		$dbConnect = &$dbObj;		
 		$strQuery = "
 			INSERT INTO 
-				users
+				tbluser
 			(
-				userFullName,
+				full_name,
 
-				userEmail,
-				userUsername,
-				userPassword,
-				userUnverifiedFlag,
-				userDateTime
+				email,
+				username,
+				password,
+				unverifiedFlag,
+				date_time
 			)
 		VALUES 
 			(
@@ -143,8 +148,8 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				NOW()
 			) 
 			";//echo $strQuery;exit;
-		$dbConnect = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-		$stmt = $dbConnect->prepare($strQuery);
+		$connection = new dbObj($newName='exchange',$newHost='localhost',$newUser='root',$newPassword='Maddy.7800!!!!');
+		$stmt = $connection->dbConnect->prepare($strQuery);
 		$stmt->bindValue(':userFullName', $userFullName, PDO::PARAM_INT);
 		$stmt->bindValue(':userEmail', $userEmail, PDO::PARAM_INT);
 		$stmt->bindValue(':userUsername', $userUsername, PDO::PARAM_INT);

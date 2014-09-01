@@ -1,3 +1,3 @@
 CREATE USER TABLE
 
-create table users (id int(255), is_admin tinyint(1), userUsername varchar(40), userPassword varchar(255), userEmail varchar(255), timezone varchar(35), loggedIp varchar(255), is_locked tinyint(1), failed_logins int(5), userDateTime int(10), last_login int(10), userFullname varchar(64), securityquest1 varchar(255), securityquest2 varchar(255), userUnverifiedFlag tinyint(1));
+create table tbluser (id int(255), is_admin tinyint(1), username varchar(40), password varchar(255), email varchar(255), timezone varchar(35), loggedIp varchar(255), is_locked tinyint(1), failed_logins int(5), date_time int(10), last_login int(10), full_name varchar(64), securityquest1 varchar(255), securityquest2 varchar(255), unverifiedFlag tinyint(1));

@@ -123,7 +123,7 @@ echo "tempint: ".$resultSet;
 	}
 
 
-public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag)
+public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1,$is_admin=0,$timezone='EST',$loggedIp='0.0.0.0')
 	{
 		$dbConnect = &$dbObj;		
 		$strQuery = "
@@ -136,7 +136,10 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				username,
 				password,
 				unverifiedFlag,
-				date_time
+				date_time,
+				is_admin,
+				timezone,
+				loggedIp
 			)
 		VALUES 
 			(
@@ -145,7 +148,11 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				:userUsername,
 				:userPassword,
 				:userUnverifiedFlag,
-				NOW()
+				NOW(),
+				$is_admin,
+				:timezone,
+				:loggedIp
+
 			) 
 			";//echo $strQuery;exit;
 		$connection = new dbObj($newName='exchange',$newHost='localhost',$newUser='root',$newPassword='Maddy.7800!!!!');
@@ -155,7 +162,8 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 		$stmt->bindValue(':userUsername', $userUsername, PDO::PARAM_INT);
 		$stmt->bindValue(':userPassword', $userPassword, PDO::PARAM_INT);
 		$stmt->bindValue(':userUnverifiedFlag', $userUnverifiedFlag, PDO::PARAM_INT);
-		//$stmt->bindValue(':userDateTime', $userDateTime, PDO::PARAM_INT);
+		$stmt->bindValue(':timezone', $timezone, PDO::PARAM_INT);
+		$stmt->bindValue(':loggedIp', $loggedIp, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $resultSet;

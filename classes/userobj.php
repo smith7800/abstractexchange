@@ -14,8 +14,11 @@ Class userObj{
 	var $lastLogin;
 	var $fullName;
 	var $securityQuestion1;
+	var $securityAns1;
 	var $securityQuestion2;
+	var $securityAns2;
 	var $unverifiedFlag;
+	var $agreed_to_TOS;
 	
 
 	public function __construct(&$dbObj,$userId){
@@ -35,8 +38,11 @@ Class userObj{
 				last_login,
 				full_name,
 				securityquest1,
+				securityans1,
 				securityquest2,
-				unverifiedFlag
+				securityans2,
+				unverifiedFlag,
+				agreed_to_TOS
 			FROM 
 				tbluser
 			WHERE
@@ -67,6 +73,7 @@ Class userObj{
 			$this->securityquest1 = $resultSet[0]['securityQuestion1'];
 			$this->securityquest2 = $resultSet[0]['securityQuestion2'];
 			$this->unverifiedFlag = $resultSet[0]['unverifiedFlag'];
+			$this->agreed_to_TOS = $resultSet[0]['agreed_to_TOS'];
 		}
 		else
 		{
@@ -85,6 +92,7 @@ Class userObj{
                         $this->securityquest1 = '';
                         $this->securityquest2 = '';
 			$this->unverifiedFlag = '';
+			$this->agreed_to_TOS = '';
 		}//echo $this->username;		
 	}
 	public static function userEmailExists( $dbObj,$email )
@@ -123,7 +131,7 @@ echo "tempint: ".$resultSet;
 	}
 
 
-public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1,$is_admin=0,$timezone='EST',$loggedIp='0.0.0.0')
+public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1,$is_admin=0,$timezone='EST',$loggedIp='0.0.0.0',$is_locked=0,$securityquest1,$securityans1,$securityquest2,$securityans2,$agreed_to_TOS=0)
 	{
 		$dbConnect = &$dbObj;		
 		$strQuery = "
@@ -139,7 +147,13 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				date_time,
 				is_admin,
 				timezone,
-				loggedIp
+				loggedIp,
+				is_locked,
+				securityquest1,
+				securityans1,
+				securityquest2,
+				securityans2,
+				agreed_to_TOS
 			)
 		VALUES 
 			(
@@ -151,11 +165,16 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				NOW(),
 				$is_admin,
 				:timezone,
-				:loggedIp
-
+				:loggedIp,
+				$is_locked,
+				$securityquest1,
+				:securityans1,
+				$securityquest2,
+				:securityans2,
+				$agreed_to_TOS
 			) 
 			";//echo $strQuery;exit;
-		$connection = new dbObj($newName='exchange',$newHost='localhost',$newUser='root',$newPassword='Maddy.7800!!!!');
+		$connection = new dbObj();
 		$stmt = $connection->dbConnect->prepare($strQuery);
 		$stmt->bindValue(':userFullName', $userFullName, PDO::PARAM_INT);
 		$stmt->bindValue(':userEmail', $userEmail, PDO::PARAM_INT);
@@ -164,6 +183,8 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 		$stmt->bindValue(':userUnverifiedFlag', $userUnverifiedFlag, PDO::PARAM_INT);
 		$stmt->bindValue(':timezone', $timezone, PDO::PARAM_INT);
 		$stmt->bindValue(':loggedIp', $loggedIp, PDO::PARAM_INT);
+		$stmt->bindValue(':securityans1', $securityans1, PDO::PARAM_INT);
+		$stmt->bindValue(':securityans2', $securityans2, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		return $resultSet;

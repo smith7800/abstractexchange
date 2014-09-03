@@ -131,14 +131,14 @@ echo "tempint: ".$resultSet;
 	}
 
 
-public static function insertUser(&$dbObj,$email,$password,$securityquest1,$securityans1,$securityquest2,$securityans2)
+public static function insertUser(&$dbObj,$email,$password,$logged_ip,$ip_forwarded,$ip_remote,$securityquest1,$securityans1,$securityquest2,$securityans2)
 	{
 $salt = getenv('WEBSITE_SALT');
 $crypt_password=crypt($password,$salt);
 $unverifiedFlag=1;
 $is_admin=0;
 $timezone='EST';
-$logged_ip='0.0.0.0';
+//$logged_ip='0.0.0.0';
 $is_locked=0;
 		$dbConnects = &$dbObj;		
 		$strQuery = "
@@ -152,6 +152,8 @@ $is_locked=0;
 				is_admin,
 				timezone,
 				logged_ip,
+				ip_forwarded,
+				ip_remote,
 				is_locked,
 				securityquest1,
 				securityans1,
@@ -167,6 +169,8 @@ $is_locked=0;
 				$is_admin,
 				:timezone,
 				:logged_ip,
+				:ip_forwarded,
+				:ip_remote,
 				$is_locked,
 				:securityquest1,
 				:securityans1,

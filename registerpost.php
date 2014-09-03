@@ -16,11 +16,13 @@ $securityans2=$_POST['answer2'];
 $userUnverifiedFlag=1;
 $is_admin=0;
 $timezone='EST';
-$loggedIp='0.0.0.0';
+$logged_ip=$_SERVER['REMOTE_ADDR'];
+$ip_forwarded=$_SERVER['HTTP_X_FORWARDED_FOR'];
+$ip_remote=$_SERVER['REMOTE_ADDR'];
 $is_locked=0;
 $agreed_to_TOS=0;
 
-$tempInsert=userObj::insertUser2(&$dbObj,$email,$password,$securityquest1,$securityans1,$securityquest2,$securityans2);
+$tempInsert=userObj::insertUser(&$dbObj,$email,$password,$logged_ip,$ip_forwarded,$ip_remote,$securityquest1,$securityans1,$securityquest2,$securityans2);
 
 //print_r($tempInsert);
 ?>

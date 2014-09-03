@@ -14,7 +14,14 @@ Class dbObj{
 		$this->dbConnection();
 	}
 	function dbConnection(){
-		$this->dbConnect = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
+		//$this->dbConnect = new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
+		try{
+		    $this->dbConnect=new PDO('mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset=utf8', $this->dbUser, $this->dbPassword);
+		} 
+		catch(PDOException $e){
+		    echo 'Error connecting to MySQL!: '.$e->getMessage();
+		    exit();
+		}
 	}
 	function dbCloseConnection(){	
 		$this->dbConnect = null;

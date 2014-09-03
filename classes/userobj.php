@@ -2,7 +2,7 @@
 Class userObj{
 	var $dbConnect;
 	var $userId;
-	var $isAdmin;
+	var $is_admin;
 	var $username;
 	var $password;
 	var $email;
@@ -13,10 +13,10 @@ Class userObj{
 	var $signupTimestamp;
 	var $lastLogin;
 	var $fullName;
-	var $securityQuestion1;
-	var $securityAns1;
-	var $securityQuestion2;
-	var $securityAns2;
+	var $securityquest1;
+	var $securityans1;
+	var $securityquest2;
+	var $securityans2;
 	var $unverifiedFlag;
 	var $agreed_to_TOS;
 	
@@ -131,15 +131,16 @@ echo "tempint: ".$resultSet;
 	}
 
 
-public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername,$userPassword,$userUnverifiedFlag=1,$is_admin=0,$timezone='EST',$loggedIp='0.0.0.0',$is_locked=0,$securityquest1,$securityans1,$securityquest2,$securityans2,$agreed_to_TOS=0)
+public static function insertUser(&$dbObj,$userFullName="",$userEmail,$userUsername="",$userPassword,$userUnverifiedFlag=1,$is_admin=0,$timezone='EST',$loggedIp='0.0.0.0',$is_locked=0,$securityquest1,$securityans1,$securityquest2,$securityans2,$agreed_to_TOS=0)
 	{
+$user='root';
+$pass='Maddy.7800!!!!';
 		$dbConnect = &$dbObj;		
 		$strQuery = "
 			INSERT INTO 
 				tbluser
 			(
 				full_name,
-
 				email,
 				username,
 				password,
@@ -147,7 +148,7 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				date_time,
 				is_admin,
 				timezone,
-				loggedIp,
+				logged_ip,
 				is_locked,
 				securityquest1,
 				securityans1,
@@ -173,22 +174,111 @@ public static function insertUser(&$dbObj,$userFullName,$userEmail,$userUsername
 				:securityans2,
 				$agreed_to_TOS
 			) 
-			";//echo $strQuery;exit;
-		$connection = new dbObj();
-		$stmt = $connection->dbConnect->prepare($strQuery);
-		$stmt->bindValue(':userFullName', $userFullName, PDO::PARAM_INT);
-		$stmt->bindValue(':userEmail', $userEmail, PDO::PARAM_INT);
-		$stmt->bindValue(':userUsername', $userUsername, PDO::PARAM_INT);
-		$stmt->bindValue(':userPassword', $userPassword, PDO::PARAM_INT);
-		$stmt->bindValue(':userUnverifiedFlag', $userUnverifiedFlag, PDO::PARAM_INT);
-		$stmt->bindValue(':timezone', $timezone, PDO::PARAM_INT);
-		$stmt->bindValue(':loggedIp', $loggedIp, PDO::PARAM_INT);
-		$stmt->bindValue(':securityans1', $securityans1, PDO::PARAM_INT);
-		$stmt->bindValue(':securityans2', $securityans2, PDO::PARAM_INT);
+			";//echo $strQuery;//exit;
+		//$connection = new dbObj($newName='exchange',$newHost='localhost',$newUser='root',$newPassword='Maddy.7800!!!!');
+$connection = new PDO('mysql:host=localhost;dbname=exchange', $user, $pass);
+		//try{
+		//$stmt = $connection->dbConnect->prepare($strQuery);
+		//}
+		//catch(PDOException $e){
+		    //echo 'PDO Error!: '.$e->getMessage();
+		    //exit();
+		//}
+$stmt = $connection->prepare($strQuery);
+		$stmt->bindValue(':userFullName', $userFullName);
+		$stmt->bindValue(':userEmail', $userEmail);
+		$stmt->bindValue(':userUsername', $userUsername);
+		$stmt->bindValue(':userPassword', $userPassword);
+		$stmt->bindValue(':userUnverifiedFlag', $userUnverifiedFlag);
+		$stmt->bindValue(':timezone', $timezone);
+		$stmt->bindValue(':loggedIp', $loggedIp);
+		$stmt->bindValue(':securityans1', $securityans1);
+		$stmt->bindValue(':securityans2', $securityans2);
+//$stmt->debugDumpParams();
+		try{
 		$stmt->execute();
-		$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		catch(PDOException $e){
+		    echo 'PDO Error!: '.$e->getMessage();
+		    exit();
+		}
+//print_r($stmt);
+
+		$resultSet = $stmt->fetch(PDO::FETCH_ASSOC);
+echo "hello";
+//print_r($resultSet);
 		return $resultSet;
 	}
+public static function insertUser2(&$dbObj,$email,$password,$securityquest1,$securityans1,$securityquest2,$securityans2)
+	{
+$crypt_password=crypt($password);
+$unverifiedFlag=1;
+$is_admin=0;
+$timezone='EST';
+$logged_ip='0.0.0.0';
+$is_locked=0;
+		$dbConnect = &$dbObj;		
+		$strQuery = "
+			INSERT INTO 
+				tbluser
+			(
+				email,
+				password,
+				unverifiedFlag,
+				date_time,
+				is_admin,
+				timezone,
+				logged_ip,
+				is_locked,
+				securityquest1,
+				securityans1,
+				securityquest2,
+				securityans2
+			)
+		VALUES 
+			(
+				:email,
+				:password,
+				$unverifiedFlag,
+				NOW(),
+				$is_admin,
+				:timezone,
+				:logged_ip,
+				$is_locked,
+				:securityquest1,
+				:securityans1,
+				:securityquest2,
+				:securityans2
+			) 
+			";//echo $strQuery;//exit;
+		$connection = new dbObj();
+		try{
+		$stmt = $connection->dbConnect->prepare($strQuery);
+		}
+		catch(PDOException $e){
+		    echo 'PDO Error!: '.$e->getMessage();
+		    exit();
+		}
 
+		$stmt->bindValue(':email', $email);
+		$stmt->bindValue(':password', $crypt_password);
+		$stmt->bindValue(':timezone', $timezone);
+		$stmt->bindValue(':logged_ip', $logged_ip);
+		$stmt->bindValue(':securityquest1', $securityquest1);
+		$stmt->bindValue(':securityans1', $securityans1);
+		$stmt->bindValue(':securityquest2', $securityquest2);
+		$stmt->bindValue(':securityans2', $securityans2);
+		try{
+		$stmt->execute();
+		}
+		catch(PDOException $e){
+		    echo 'PDO Error!: '.$e->getMessage();
+		    exit();
+		}
+
+		$resultSet = $stmt->fetch(PDO::FETCH_ASSOC);
+echo "Thank you for registering!";
+		return $resultSet;
+	}
 }
 ?>

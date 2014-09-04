@@ -1,18 +1,20 @@
 <?php
 Class userObj{
 	var $dbConnect;
-	var $userId;
+	var $id;
 	var $is_admin;
 	var $username;
 	var $password;
 	var $email;
 	var $timezone;
-	var $loggedIp;
-	var $isLocked;
-	var $failedLogins;
-	var $signupTimestamp;
-	var $lastLogin;
-	var $fullName;
+	var $logged_ip;
+	var $ip_forwarded;
+	var $ip_remote;
+	var $is_locked;
+	var $failed_logins;
+	var $date_time;
+	var $last_login;
+	var $full_name;
 	var $securityquest1;
 	var $securityans1;
 	var $securityquest2;
@@ -32,9 +34,12 @@ Class userObj{
 				password,
 				email,
 				timezone,
-				loggedIp,
+				logged_ip,
+				ip_forwarded,
+				ip_remote,
 				is_locked,
 				failed_logins,
+				date_time,
 				last_login,
 				full_name,
 				securityquest1,
@@ -58,20 +63,22 @@ Class userObj{
 //print_r($resultSet);
 		if (count($resultSet))
 		{
-			$this->userID = $resultSet[0]['userId'];
-			$this->isAdmin = $resultSet[0]['isAdmin'];
+			$this->userID = $resultSet[0]['id'];
+			$this->isAdmin = $resultSet[0]['is_admin'];
 			$this->username = $resultSet[0]['username'];
 			$this->password = $resultSet[0]['password'];
 			$this->email = $resultSet[0]['email'];
 			$this->timezone = $resultSet[0]['timezone'];
-			$this->loggedIp = $resultSet[0]['loggedIp'];
-			$this->isLocked = $resultSet[0]['isLocked'];
-			$this->failedLogins = $resultSet[0]['failedLogins'];
-			$this->signupTimestamp = $resultSet[0]['signupTimestamp'];
-			$this->lastLogin = $resultSet[0]['lastLogin'];
-			$this->fullName = $resultSet[0]['fullName'];
-			$this->securityquest1 = $resultSet[0]['securityQuestion1'];
-			$this->securityquest2 = $resultSet[0]['securityQuestion2'];
+			$this->loggedIp = $resultSet[0]['logged_ip'];
+			$this->isLocked = $resultSet[0]['is_locked'];
+			$this->failedLogins = $resultSet[0]['failed_logins'];
+			$this->failedLogins = $resultSet[0]['date_time'];
+			$this->lastLogin = $resultSet[0]['last_login'];
+			$this->fullName = $resultSet[0]['full_name'];
+			$this->securityquest1 = $resultSet[0]['securityquest1'];
+			$this->securityquest1 = $resultSet[0]['securityans1'];
+			$this->securityquest1 = $resultSet[0]['securityquest2'];
+			$this->securityquest2 = $resultSet[0]['securityans2'];
 			$this->unverifiedFlag = $resultSet[0]['unverifiedFlag'];
 			$this->agreed_to_TOS = $resultSet[0]['agreed_to_TOS'];
 		}
@@ -109,17 +116,10 @@ Class userObj{
 				id
 			LIMIT 1
 			";
-	#getData database.php
-
-	//$db = new PDO('mysql:host=localhost;dbname=exchange;charset=utf8', 'root', 'Maddy.7800!!!!');
-	
 	$stmt = $dbConnect->prepare($strQuery);
 	$stmt->bindValue(':email', $email, PDO::PARAM_INT);
 	$stmt->execute();
 	$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//print_r($resultSet);
-	//$dbConnect = &$dbObject;
-	//$resultSet = $dbConnect->dbSelect( $strQuery );
 	print_r($resultSet);
 	$tempInt = $resultSet[0]['id'];
 echo "tempint: ".$resultSet;
@@ -138,7 +138,6 @@ $crypt_password=crypt($password,$salt);
 $unverifiedFlag=1;
 $is_admin=0;
 $timezone='EST';
-//$logged_ip='0.0.0.0';
 $is_locked=0;
 		$dbConnects = &$dbObj;		
 		$strQuery = "

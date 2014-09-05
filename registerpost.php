@@ -5,7 +5,7 @@ error_reporting(-1);
 
 require_once('systemincludes.php');
 
-$userFullName="jksljdfsd";
+
 $userUsername="";
 $email=$_POST['email'];
 $password=$_POST['password'];
@@ -17,12 +17,22 @@ $userUnverifiedFlag=1;
 $is_admin=0;
 $timezone='EST';
 $logged_ip=$_SERVER['REMOTE_ADDR'];
-$ip_forwarded=$_SERVER['HTTP_X_FORWARDED_FOR'];
-$ip_remote=$_SERVER['REMOTE_ADDR'];
+
+if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip_forwarded = $_SERVER['HTTP_X_FORWARDED_FOR'];
+}
+else $ip_forwarded = '0.0.0.0';
+
 $is_locked=0;
 $agreed_to_TOS=0;
 
-$tempInsert=userObj::insertUser(&$dbObj,$email,$password,$logged_ip,$ip_forwarded,$ip_remote,$securityquest1,$securityans1,$securityquest2,$securityans2);
+$emailExists=userObj::emailExists( $dbObject, $email );
+if($emailExists){
+	echo "That email already exists.  Click here to recover your password.";
+}
+else{
+	$tempInsert=userObj::insertUser($dbObj,$email,$password,$logged_ip,$ip_forwarded,$securityquest1,$securityans1,$securityquest2,$securityans2);
+}
 
 //print_r($tempInsert);
 ?>

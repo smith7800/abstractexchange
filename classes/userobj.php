@@ -174,7 +174,6 @@ $is_locked=0;
 		}
 
 		$resultSet = $stmt->fetch(PDO::FETCH_ASSOC);
-echo "Thank you for registering!";
 		return $resultSet;
 	}
 

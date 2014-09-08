@@ -6,6 +6,34 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<title>Premium Coin Exchange</title>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+      $(function () {
+
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+
+          $.ajax({
+            type: 'post',
+            url: 'loginpost.php',
+            data: $('form').serialize(),
+            success: function (html) {
+              alert('form was submitted');
+		if(html=='true'){
+			window.location="dashboard.php";
+		}
+		else{
+			window.location="www.google.com";
+		}
+		
+            }
+          });
+
+        });
+
+      });
+    </script>
 	</head>
 	<body>
 		<div id="header">

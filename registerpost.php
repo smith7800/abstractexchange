@@ -28,10 +28,19 @@ $agreed_to_TOS=0;
 
 $emailExists=userObj::emailExists( $dbObject, $email );
 if($emailExists){
-	echo "That email already exists.  Click here to recover your password.";
+	echo "emailexists";
 }
 else{
-	$tempInsert=userObj::insertUser($dbObj,$email,$password,$logged_ip,$ip_forwarded,$securityquest1,$securityans1,$securityquest2,$securityans2);
+		$tempInsert=userObj::insertUser($dbObj,$email,$password,$logged_ip,$ip_forwarded,$securityquest1,$securityans1,$securityquest2,$securityans2);
+		$to = $email;
+		$subject = "Shitcoin Exchange Registration";
+		$message = "Hello! You must click on the link below to complete registration.
+		http://shitcoin.exchange/regverify.php?cid=xxx
+		";
+		$from = "admin@shitcoin.exhange";
+		$headers = "From: $from";
+		mail($to,$subject,$message,$headers);
+		echo "true";
 }
 
 //print_r($tempInsert);

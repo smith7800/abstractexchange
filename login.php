@@ -24,7 +24,7 @@
 			window.location="dashboard.php";
 		}
 		else{
-			window.location="www.google.com";
+			window.location="/";
 		}
 		
             }

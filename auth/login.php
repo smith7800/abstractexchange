@@ -21,10 +21,10 @@
             success: function (html) {
               alert('form was submitted');
 		if(html=='true'){
-			window.location="dashboard.php";
+			window.location="../dashboard.php";
 		}
 		else{
-			window.location="www.google.com";
+			window.location="/";
 		}
 		
             }
